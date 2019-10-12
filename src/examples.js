@@ -25,16 +25,6 @@ import {
     Tetrahedron
 } from './lib/geo';
 
-export const sierpinskiTetrahedron = () => {
-    const obj = new FracObject();
-	for (let i=0; i < 9; i++) {
-		obj.add(FoldSierpinski());
-		obj.add(FoldScaleTranslate(2, -1));
-    }
-    obj.add(Tetrahedron(1, [0,0,0], [0.8,0.8,0.5]));
-    return obj;
-};
-
 export const menger = () => {
     const obj = new FracObject();
 	for (let i=0; i < 20; i++) {
@@ -47,10 +37,34 @@ export const menger = () => {
     return obj;
 };
 
+export const sierpinskiTetrahedron = () => {
+    const obj = new FracObject();
+	for (let i=0; i < 9; i++) {
+		obj.add(FoldSierpinski());
+		obj.add(FoldScaleTranslate(2, -1));
+    }
+    obj.add(Tetrahedron(1, [0,0,0], [0.8,0.8,0.5]));
+    return obj;
+};
+
 export const infiniteSpheres = () => {
     const obj = new FracObject();
     obj.add(FoldRepeatXYZ(5));
     obj.add(Sphere());
+    return obj;
+};
+
+export const mausoleum = () => {
+    const obj = new FracObject();
+    obj.add(OrbitInitZero());
+	for (let i=0; i < 9; i++) {
+		obj.add(FoldBox(0.34));
+		obj.add(FoldMenger());
+        obj.add(FoldScaleTranslate(3.28, [-5.27,-0.34,0]));
+        obj.add(FoldRotateX(Math.PI/2));
+        obj.add(OrbitMax([0.42,0.38,0.19]));
+    }
+    obj.add(Box(2, [0,0,0], 'orbit'));
     return obj;
 };
 
@@ -93,20 +107,6 @@ export const snowStadium = () => {
 		obj.add(OrbitMinAbs(1));
     }
     obj.add(Box(4.8, [0,0,0], 'orbit'));
-    return obj;
-};
-
-export const mausoleum = () => {
-    const obj = new FracObject();
-    obj.add(OrbitInitZero());
-	for (let i=0; i < 9; i++) {
-		obj.add(FoldBox(0.34));
-		obj.add(FoldMenger());
-        obj.add(FoldScaleTranslate(3.28, [-5.27,-0.34,0]));
-        obj.add(FoldRotateX(Math.PI/2));
-        obj.add(OrbitMax([0.42,0.38,0.19]));
-    }
-    obj.add(Box(2, [0,0,0], 'orbit'));
     return obj;
 };
 

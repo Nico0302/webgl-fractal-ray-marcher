@@ -7,6 +7,7 @@ var state = {
     gl: null,
     program: null,
     canvas: null,
+    prevMat: null,
     ui: {
         dragging: false,
         mouse: {
@@ -176,7 +177,7 @@ function initProgram(gl, options) {
 
 function draw(gl) {
     const matUniformLocation = gl.getUniformLocation(state.program, 'iMat');
-    // const prevMatUniformLocation = gl.getUniformLocation(state.program, 'iPrevMat');
+    const prevMatUniformLocation = gl.getUniformLocation(state.program, 'iPrevMat');
     const resUniformLocation = gl.getUniformLocation(state.program, 'iResolution');
 
     state.canvas.width = window.innerWidth;
@@ -202,6 +203,10 @@ function draw(gl) {
 
     m4.axisRotate(mvp, [0,0,1], state.app.eye.roll, mvp);
     gl.uniformMatrix4fv(matUniformLocation, false, mvp);
+    if (state.prevMat)
+        gl.uniformMatrix4fv(prevMatUniformLocation, false, state.prevMat);
+
+    state.prevMat = mvp;
 
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 }
